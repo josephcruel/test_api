@@ -1,12 +1,19 @@
 const express = reqiure ('express')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+const morgan = require('morgan')
+const cors = require('cors')
+
+require('dotenv/config')
 
 const authJwt = require('./helpers/jwt')
 const errorHandler = require('.helpers/error-handler')
 
 const app = express()
 
+app.use(cors())
+app.options("*", cors())
+app.use(morgan('tiny'))
 app.use(bodyParser.json({limit: '50mb'}))
 app.use(bodyParser.urlencoded({extended: true, limit: '50mb'}))
 
@@ -51,3 +58,7 @@ mongoose.connect(dbConfig.url, {
     process.exit()
 })
 
+// Setting up the server
+app.listen(() => {
+    console.log("Server is running on port 3000")
+})
