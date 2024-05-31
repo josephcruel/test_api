@@ -31,3 +31,23 @@ app.use(`${api}/products`, productRoute)
 app.use(`${api}/categories`, categoriesRoute)
 app.use(`${api}/user`, userRoute)
 app.use(`${api}/orders`, orderRoute)
+
+// Database config and connection
+
+const dbConfig = require('.config/database.config.js')
+
+mongoose.Promise = global.Promise
+
+mongoose.connect(dbConfig.url, {
+    useNewUrlParser: true,
+    useUnifiedToplogy: true,
+    useFindAndModify: false
+})
+
+.then(() => {
+    console.log("Successfully connnected to the database.")
+}).catch(err => {
+    console.log("Could not connect to the database. Exiting now ...", err)
+    process.exit()
+})
+
